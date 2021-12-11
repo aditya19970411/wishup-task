@@ -7,10 +7,27 @@ const subscriptionsData = JSON.parse(
 );
 const plansData = JSON.parse(fs.readFileSync(__dirname + "/data/plans.json"));
 
+// Calculate Valid Till function
+function validTill(start_date, validity) {
+  return moment(start_date).add(Number(validity), "d").format("YYYY-MM-DD");
+}
+
 function createSubscriptions({ user_name, plan_id, start_date }) {
   const user = usersData.users.find((user) => user.user_name === user_name);
   const plan = plansData.plans.find((plan) => plan.plan_id === plan_id);
-  console.log(user, plan);
+  const preExistsPlans = subscriptionsData.subscriptions.filter(
+    (sub) =>
+      (sub.plan_id === "FREE" && sub.user_name === user_name) ||
+      (sub.plan_id === plan_id &&
+        sub.user_name === user_name &&
+        moment(start_date).isBetween(
+          sub.start_date,
+          validTill(sub.start_date, plan.validity) ||
+            moment(start_date).isSame(sub.start_date) ||
+            moment(start_date).isSame(validTill(sub.start_date, plan.validity))
+        ))
+  );
+  console.log(preExistsPlans);
   return new Promise(function (resolve, reject) {
     if (!user || !user_name)
       reject({
@@ -28,11 +45,19 @@ function createSubscriptions({ user_name, plan_id, start_date }) {
         staus: "FAILURE",
         amount: 0.0,
       });
-    else if (!start_date) {
+    else if (!start_date)
       reject({
         message: "Provided start_date is incorrect",
         statusCode: 400,
         name: "BADREQUEST",
+        staus: "FAILURE",
+        amount: 0.0,
+      });
+    else if (!preExistsPlans !== 0) {
+      reject({
+        message: "Plan which contains start date in between already exists",
+        statusCode: 303,
+        name: "ALREADYEXISTSERROR",
         staus: "FAILURE",
         amount: 0.0,
       });
@@ -87,9 +112,7 @@ function getSubscription({ user_name, date }) {
             valid_till: plan.validity,
           });
         } else {
-          var valid_till = moment(sub.start_date)
-            .add(Number(plan.validity), "d")
-            .format("YYYY-MM-DD");
+          var valid_till = validTill(sub.start_date, plan.validity);
           subs.push({
             plan_id: plan.plan_id,
             start_date: sub.start_date,
@@ -120,11 +143,9 @@ function getSubscription({ user_name, date }) {
               days_left: plan.validity,
             });
           } else {
-            var valid_till = moment(sub.start_date)
-              .add(Number(plan.validity), "d")
-              .format("YYYY-MM-DD");
+            var valid_till = validTill(sub.start_date, plan.validity);
             const days_left = moment(valid_till).diff(date, "days");
-            if (days_left > 0) {
+            if (days_left >= 0) {
               validSubs.push({
                 plan_id: plan.plan_id,
                 days_left,
