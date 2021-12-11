@@ -7,4 +7,4 @@ To get started with the project follow the below steps:
   2. npm start
   
   
-  if you want to run on any some specific port add PORT env with the desired port
+  if you want to run on some specific port add "PORT" environment variable with the desired port
