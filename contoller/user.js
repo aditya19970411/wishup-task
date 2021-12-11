@@ -31,7 +31,6 @@ userRouter.delete("/:username", function (req, res, next) {
       res.status(200).json({ ...del });
     })
     .catch(function (err) {
-      console.log("ERROR IN DELETE", err);
       next(err);
     });
 });

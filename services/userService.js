@@ -1,6 +1,6 @@
 const fs = require("fs");
 const moment = require("moment");
-const data = JSON.parse(fs.readFileSync(__dirname + "/data/user.json"));
+const data = JSON.parse(fs.readFileSync(__dirname + "/data/users.json"));
 
 function createUser(username) {
   var created_at = moment().format("YYYY-MM-DD HH:mm:ss");
@@ -20,7 +20,7 @@ function createUser(username) {
       var updateData = { ...data };
       updateData.users.push(userObject);
       fs.writeFile(
-        __dirname + "/data/user.json",
+        __dirname + "/data/users.json",
         JSON.stringify(updateData),
         function (err) {
           if (err) {
@@ -61,7 +61,7 @@ function deleteUser(username) {
     } else {
       const newData = data.users.filter((user) => user.user_name !== username);
       fs.writeFile(
-        __dirname + "/data/user.json",
+        __dirname + "/data/users.json",
         JSON.stringify({ users: newData }),
         function (err) {
           if (err) {
