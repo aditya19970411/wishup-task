@@ -1,13 +1,11 @@
-function errorHandler(err, req, res) {
-  console.log("ERROR HANDLER", ...err);
-  res.json({
-    // error: {
-    //   code: err.code,
-    //   message: err.message,
-    //   name: err.name,
-    // },
-    name: "SOME",
-  });
+function errorHandler(err, req, res, next) {
+  res.status(err.statusCode || 500);
+  res.json({ message: err.message, error: err });
 }
 
-module.exports = { errorHandler };
+function logErrors(err, req, res, next) {
+  console.log("ERROR:", err);
+  next(err);
+}
+
+module.exports = { errorHandler, logErrors };

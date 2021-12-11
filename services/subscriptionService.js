@@ -15,7 +15,7 @@ function createSubscriptions({ user_name, plan_id, start_date }) {
     if (!user || !user_name)
       reject({
         message: "Provided user_name is incorrect",
-        code: 400,
+        statusCode: 400,
         name: "BADREQUEST",
         staus: "FAILURE",
         amount: 0.0,
@@ -23,7 +23,7 @@ function createSubscriptions({ user_name, plan_id, start_date }) {
     else if (!plan || !plan_id)
       reject({
         message: "Provided plan_id is incorrect",
-        code: 400,
+        statusCode: 400,
         name: "BADREQUEST",
         staus: "FAILURE",
         amount: 0.0,
@@ -31,7 +31,7 @@ function createSubscriptions({ user_name, plan_id, start_date }) {
     else if (!start_date) {
       reject({
         message: "Provided start_date is incorrect",
-        code: 400,
+        statusCode: 400,
         name: "BADREQUEST",
         staus: "FAILURE",
         amount: 0.0,
@@ -52,7 +52,7 @@ function createSubscriptions({ user_name, plan_id, start_date }) {
           if (err) {
             reject({
               message: "Internal error occured",
-              code: 500,
+              statusCode: 500,
               name: "INTERNALEROR",
               staus: "FAILURE",
               amount: 0.0,
@@ -70,7 +70,7 @@ function getSubscription({ user_name, date }) {
     if (!user)
       reject({
         message: "User not found",
-        code: 404,
+        statusCode: 404,
         name: "USERNOTFOUNDERROR",
       });
     else if (!date) {
@@ -102,7 +102,7 @@ function getSubscription({ user_name, date }) {
       if (!moment(date, "YYYY-MM-DD", true).isValid()) {
         reject({
           message: "Incorrect date format",
-          code: 404,
+          statusCode: 404,
           name: "BADDATEERROR",
         });
       } else {

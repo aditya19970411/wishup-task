@@ -13,7 +13,7 @@ function createUser(username) {
     if (userExists)
       reject({
         message: "User already exists",
-        code: 403,
+        statusCode: 403,
         name: "USERALREADYEXISTSERROR",
       });
     else {
@@ -26,7 +26,7 @@ function createUser(username) {
           if (err) {
             reject({
               message: "Internal error occured",
-              code: 500,
+              statusCode: 500,
               name: "INTERNALEROR",
             });
           } else resolve(userObject);
@@ -42,7 +42,7 @@ function getUser(username) {
     if (!user) {
       reject({
         message: "User not Found",
-        code: 404,
+        statusCode: 404,
         name: "USERNOTFOUNDERROR",
       });
     } else resolve(user);
@@ -55,7 +55,7 @@ function deleteUser(username) {
     if (!user) {
       reject({
         message: "User not Found",
-        code: 404,
+        statusCode: 404,
         name: "USERNOTFOUNDERROR",
       });
     } else {
@@ -67,7 +67,7 @@ function deleteUser(username) {
           if (err) {
             reject({
               message: "Internal error occured",
-              code: 500,
+              statusCode: 500,
               name: "INTERNALEROR",
             });
           } else resolve({ message: "User deleted Succesfully" });
