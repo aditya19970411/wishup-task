@@ -1,0 +1,34 @@
+{
+  "plans": [
+    {
+      "plan_id": "FREE",
+      "validity": "infinite",
+      "cost": 0.0
+    },
+    {
+      "plan_id": "TRIAL",
+      "validity": "7",
+      "cost": 0.0
+    },
+    {
+      "plan_id": "LITE_1M",
+      "validity": "30",
+      "cost": 100.0
+    },
+    {
+      "plan_id": "PRO_1M",
+      "validity": "30",
+      "cost": 200.0
+    },
+    {
+      "plan_id": "LITE_6M",
+      "validity": "180",
+      "cost": 500.0
+    },
+    {
+      "plan_id": "PRO_6M",
+      "validity": "180",
+      "cost": 900.0
+    }
+  ]
+}

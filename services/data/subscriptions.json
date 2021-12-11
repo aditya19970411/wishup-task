@@ -1,0 +1,7 @@
+{
+  "subscriptions": [
+    { "user_name": "jay", "plan_id": "TRIAL", "start_date": "2021-12-11" },
+    { "user_name": "jay", "plan_id": "FREE", "start_date": "2021-12-11" },
+    { "user_name": "jay", "plan_id": "LITE_1M", "start_date": "2021-12-11" }
+  ]
+}
